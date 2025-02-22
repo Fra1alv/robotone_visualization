@@ -17,6 +17,12 @@ def generate_launch_description():
         'robotone.urdf.xacro'
     ])
 
+    rviz_config_path = PathJoinSubstitution([
+        FindPackageShare('robotone_visualization'),
+        'rviz',
+        'robotone_config.rviz'
+    ])
+
     # Declare launch arguments for flexibility
     ld = LaunchDescription([
         DeclareLaunchArgument(
@@ -67,11 +73,7 @@ def generate_launch_description():
         condition=IfCondition(LaunchConfiguration('rviz')),
         arguments=[
             '-d',
-            os.path.join(
-                get_package_share_directory('robotone_visualization'),
-                'rviz',
-                'robotone_config.rviz'  # Make sure this file exists
-            ),
+            rviz_config_path
         ],
         parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')}]
     )
